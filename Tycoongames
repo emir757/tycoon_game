@@ -1,0 +1,179 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Tycoon Oyunu',
+      theme: ThemeData(primarySwatch: Colors.green),
+      home: TycoonGame(),
+    );
+  }
+}
+
+class TycoonGame extends StatefulWidget {
+  @override
+  _TycoonGameState createState() => _TycoonGameState();
+}
+
+class _TycoonGameState extends State<TycoonGame> {
+  int money = 100;
+  int incomePerSecond = 0;
+  int businessCount = 0;
+
+  List<Business> businesses = [];
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(Duration(seconds: 1), (_) {
+      setState(() {
+        money += incomePerSecond;
+      });
+    });
+  }
+
+  void buyBusiness() {
+    int cost = 50 + businessCount * 50;
+    if (money >= cost) {
+      setState(() {
+        money -= cost;
+        businessCount++;
+        incomePerSecond += 5;
+        businesses.add(Business(name: 'İşyeri $businessCount', income: 5));
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Tycoon Oyunu')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Text('💰 Paran: \$${money}', style: TextStyle(fontSize: 24)),
+            Text('📈 Gelir/Saniye: \$${incomePerSecond}', style: TextStyle(fontSize: 18)),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: buyBusiness,
+              child: Text('🛠 İş yeri aç (\$${50 + businessCount * 50})'),
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                itemCount: businesses.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(businesses[index].name),
+                    subtitle: Text('+\$${businesses[index].income}/s'),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Business {
+  final String name;
+  final int income;
+
+  Business({required this.name, required this.income});
+}import 'dart:async';
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Tycoon Oyunu',
+      theme: ThemeData(primarySwatch: Colors.green),
+      home: TycoonGame(),
+    );
+  }
+}
+
+class TycoonGame extends StatefulWidget {
+  @override
+  _TycoonGameState createState() => _TycoonGameState();
+}
+
+class _TycoonGameState extends State<TycoonGame> {
+  int money = 100;
+  int incomePerSecond = 0;
+  int businessCount = 0;
+
+  List<Business> businesses = [];
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(Duration(seconds: 1), (_) {
+      setState(() {
+        money += incomePerSecond;
+      });
+    });
+  }
+
+  void buyBusiness() {
+    int cost = 50 + businessCount * 50;
+    if (money >= cost) {
+      setState(() {
+        money -= cost;
+        businessCount++;
+        incomePerSecond += 5;
+        businesses.add(Business(name: 'İşyeri $businessCount', income: 5));
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Tycoon Oyunu')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Text('💰 Paran: \$${money}', style: TextStyle(fontSize: 24)),
+            Text('📈 Gelir/Saniye: \$${incomePerSecond}', style: TextStyle(fontSize: 18)),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: buyBusiness,
+              child: Text('🛠 İş yeri aç (\$${50 + businessCount * 50})'),
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                itemCount: businesses.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(businesses[index].name),
+                    subtitle: Text('+\$${businesses[index].income}/s'),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Business {
+  final String name;
+  final int income;
+
+  Business({required this.name, required this.income});
+}
